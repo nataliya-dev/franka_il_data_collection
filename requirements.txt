@@ -1,0 +1,7 @@
+franky-control==1.1.1
+h5py==3.14.0
+inputs==0.5
+numpy==2.2.6
+opencv-python==4.12.0.88
+pyrealsense2==2.56.5.9235
+scipy==1.15.3
