@@ -8,14 +8,14 @@ uv pip install -r requirements.txt
 ```
 
 ## Install franky
+Make sure you have a real-time kernel installed and you allow the executing user to run real-time applications.
 ```
 VERSION=0-9-2
 wget https://github.com/TimSchneider42/franky/releases/latest/download/libfranka_${VERSION}_wheels.zip
 unzip libfranka_${VERSION}_wheels.zip
-pip install numpy
+uv pip install numpy
+uv pip install --no-index --find-links=./dist franky-control
 ```
-
-
 
 ## Run the data collection
 ```
