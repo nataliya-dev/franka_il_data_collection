@@ -12,7 +12,7 @@ devices = ctx.query_devices()
 # device_serials = ['838212073725', '943222071556', '913522070103']
 for device in devices:
     print(device)
-device_serials = ['838212073725', '943222071556']
+device_serials = ['838212073725', '943222071556', '913522070103']
 
 
 def start_camera(serial):

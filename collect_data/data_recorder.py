@@ -100,6 +100,8 @@ class DataRecorder:
         frames = self.cameras.get_frames()
         # print(f"color {time.time() - start}")
 
+        # print(frames["wrist"].shape)
+
         self.data_dict["/observations/images/wrist"].append(frames["wrist"])
         self.data_dict["/observations/images/ext1"].append(frames["ext1"])
         self.data_dict["/observations/images/ext2"].append(frames["ext2"])
@@ -138,19 +140,21 @@ class DataRecorder:
             depth = obs.create_group("depth")
 
             for cam_name in self.camera_names:
+                width = self.cameras.camera_config[cam_name]["width"]
+                height = self.cameras.camera_config[cam_name]["height"]
                 _ = image.create_dataset(
                     cam_name,
-                    (num_timesteps, 224, 224, 3),
+                    (num_timesteps, height, width, 3),
                     dtype="uint8",
-                    chunks=(1, 224, 224, 3),
+                    chunks=(1, height, width, 3),
                 )
 
                 if f"/observations/depth/{cam_name}" in self.data_dict:
                     _ = depth.create_dataset(
                         cam_name,
-                        (num_timesteps, 224, 224),
+                        (num_timesteps, height, width),
                         dtype="uint16",
-                        chunks=(1, 224, 224),
+                        chunks=(1, height, width),
                     )
 
             obs.create_dataset("qpos", (num_timesteps, 7))
