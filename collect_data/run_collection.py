@@ -10,8 +10,11 @@ from data_recorder import DataRecorder
 
 if __name__ == "__main__":
     joy = GameController()
+    print("starting")
     franka_robot = FrankaRobot()
+    print("moving home")
     franka_robot.move_home()
+    print("starting cameras")
     cameras = Cameras()
     recorder = DataRecorder(franka_robot, cameras)
     is_recording = False

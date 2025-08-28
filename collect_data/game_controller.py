@@ -5,15 +5,26 @@ from inputs import get_gamepad
 from franka_robot import RobotInputs
 
 
-def truncate_float(x, decimal_places=2):
+# def truncate_float(x, decimal_places=2):
+#     factor = 10**decimal_places
+#     return int(x * factor) / factor
+
+
+def truncate_float(x, decimal_places=1):
+    # print(x)
     factor = 10**decimal_places
-    return int(x * factor) / factor
+    truncated_x = int(x * factor) / factor
+    # print(truncated_x)
+    return truncated_x
 
 
 class GameController(object):
     # These values are different for different controllers.
+    # MAX_TRIG_VAL = 255.0
+    # MAX_JOY_VAL = 128.0
+
     MAX_TRIG_VAL = 128.0
-    MAX_JOY_VAL = 128.0
+    MAX_JOY_VAL = 32767.0
 
     def __init__(self):
         self.LeftJoystickY = 0.0
@@ -58,7 +69,12 @@ class GameController(object):
         yaw_pos = self.RightBumper * angle_multiplier
         yaw = yaw_pos - yaw_neg
 
+        # print(f"og {self.RightTrigger}")
+        # print(f"og {self.LeftTrigger}")
+
         gripper = 1 if self.RightTrigger > 0.5 else -1 if self.LeftTrigger > 0.5 else 0
+        # print(f"aft {self.RightTrigger}")
+        # print(f"aft {self.LeftTrigger}")
 
         square_btn = self.Square == 1
         triangle_btn = self.Triangle == 1
@@ -71,19 +87,19 @@ class GameController(object):
             for event in events:
                 if event.code == "ABS_Y":
                     self.LeftJoystickY = (
-                        event.state - GameController.MAX_JOY_VAL
+                        event.state
                     ) / GameController.MAX_JOY_VAL  # normalize between -1 and 1
                 elif event.code == "ABS_X":
                     self.LeftJoystickX = (
-                        event.state - GameController.MAX_JOY_VAL
+                        event.state
                     ) / GameController.MAX_JOY_VAL  # normalize between -1 and 1
                 elif event.code == "ABS_RY":
                     self.RightJoystickY = (
-                        event.state - GameController.MAX_JOY_VAL
+                        event.state
                     ) / GameController.MAX_JOY_VAL  # normalize between -1 and 1
                 elif event.code == "ABS_RX":
                     self.RightJoystickX = (
-                        event.state - GameController.MAX_JOY_VAL
+                        event.state
                     ) / GameController.MAX_JOY_VAL  # normalize between -1 and 1
                 elif event.code == "ABS_Z":
                     self.LeftTrigger = (

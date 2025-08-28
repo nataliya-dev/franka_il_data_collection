@@ -106,22 +106,6 @@ class DataRecorder:
         self.data_dict["/observations/images/ext1"].append(frames["ext1"])
         self.data_dict["/observations/images/ext2"].append(frames["ext2"])
 
-        # start = time.time()
-        # depth_frames = self.cameras.get_depth_frames()
-        # print(f"depth {time.time() - start}")
-        # # Store depth frames, webcams don't have depth
-        # for cam_name in self.camera_names:
-        #     if depth_frames[cam_name] is not None:
-        #         self.data_dict[f"/observations/depth/{cam_name}"].append(
-        #             depth_frames[cam_name])
-        #     else:
-        #         # For webcams, store a zero array to maintain consistent indexing
-        #         zero_depth = np.zeros((224, 224), dtype=np.uint16)
-        #         self.data_dict[f"/observations/depth/{cam_name}"].append(
-        #             zero_depth)
-
-        # print(f"total rec {time.time() - start_rec}")
-
     def save_data(self):
         t0 = time.time()
 
@@ -182,28 +166,5 @@ class DataRecorder:
             for name, array in self.data_dict.items():
                 print(f"Saving: {name=}")
                 root[name][...] = array
-
-            # for cam_name in self.camera_names:
-            #     print(f"Saving intrinsics for : {cam_name=}")
-            #     if intrinsics[cam_name] is not None:
-            #         for stream_type in ["color", "depth"]:
-            #             if stream_type in intrinsics[cam_name]:
-            #                 stream_intrinsics = intrinsics[cam_name][stream_type]
-            #                 root.attrs[f"{cam_name}_{stream_type}_fx"] = stream_intrinsics["fx"]
-            #                 root.attrs[f"{cam_name}_{stream_type}_fy"] = stream_intrinsics["fy"]
-            #                 root.attrs[f"{cam_name}_{stream_type}_cx"] = stream_intrinsics["cx"]
-            #                 root.attrs[f"{cam_name}_{stream_type}_cy"] = stream_intrinsics["cy"]
-            #                 root.attrs[f"{cam_name}_{stream_type}_distortion"] = stream_intrinsics["distortion"]
-            #     else:
-            #         print(f"Value is None")
-
-            # for cam_name in self.camera_names:
-            #     print(f"Saving extrinsics for : {cam_name=}")
-            #     if extrinsics[cam_name] is not None:
-            #         root.attrs[f"{cam_name}_extrinsic_rotation"] = extrinsics[cam_name]["rotation"]
-            #         root.attrs[f"{cam_name}_extrinsic_translation"] = extrinsics[cam_name]["translation"]
-            #         root.attrs[f"{cam_name}_extrinsic_matrix"] = extrinsics[cam_name]["matrix"]
-            #     else:
-            #         print(f"Value is None")
 
         print(f"Saving: {time.time() - t0:.1f} secs\n")

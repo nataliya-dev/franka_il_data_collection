@@ -14,23 +14,23 @@ CAMERA_CONFIG = {
         "type": "realsense",
         "serial_number": "838212073725",
         "fps": 30,                  # optional; set True if you must force USB2
-        "width": 960,
-        "height": 540
+        "width": 640,
+        "height": 360
     },
     "ext1": {
         "type": "luxonis",
-        "mxid": "1844301041B4351300",  # <-- set your OAK MXID here
+        "mxid": "1844301041B4351300",  # <-- set your OAK MXID here 1844301041B4351300
         "usb2": False,                  # optional; set True if you must force USB2
-        "width": 960,
-        "height": 540,
+        "width": 640,
+        "height": 360,
         "fps": 30,
     },
     "ext2": {
         "type": "luxonis",
-        "mxid": "18443010E1D3381300",  # <-- set your OAK MXID here
+        "mxid": "18443010E1D3381300",  # <-- set your OAK MXID here 18443010E1D3381300
         "usb2": False,                  # optional; set True if you must force USB2
-        "width": 960,
-        "height": 540,
+        "width": 640,
+        "height": 360,
         "fps": 30,
     },
 }
@@ -39,6 +39,8 @@ CAMERA_CONFIG = {
 # =============================================================================
 # CAMERA CLASS
 # =============================================================================
+
+
 class Cameras:
     def __init__(self, camera_config=None):
         if camera_config is None:
@@ -58,6 +60,7 @@ class Cameras:
                     f"Unknown camera type: {config['type']} for camera {name}")
 
     def _init_realsense(self, config):
+        print(f"Initializing realsense camera.")
         ctx = rs.context()
         devices = ctx.query_devices()
         available_serials = [device.get_info(
@@ -98,7 +101,7 @@ class Cameras:
         return {"type": "webcam", "capture": capture, "config": config}
 
     def _init_luxonis(self, config):
-        print("Initializing first luxonis camera")
+        print("Initializing luxonis camera")
         mxid = config.get("mxid") or config.get("serial_number")
         if not mxid:
             raise ValueError(
